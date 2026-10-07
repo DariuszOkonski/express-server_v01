@@ -19,3 +19,5 @@ app.use((req, res) => {
 app.listen(3000, () => {
   console.log("Server is Listening on port 3000...");
 });
+
+// module.exports = path.dirname(require.main.filename)
