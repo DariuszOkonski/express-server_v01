@@ -5,9 +5,16 @@ const expressHbs = require("express-handlebars");
 
 const app = express();
 
-app.engine("handlebars", expressHbs.engine());
-app.set("view engine", "pug");
-app.set("views", "views");
+app.engine(
+  "hbs",
+  expressHbs.engine({
+    layoutsDir: path.join(__dirname, "views", "layouts"),
+    defaultLayout: "main-layout",
+    extname: ".hbs",
+  }),
+);
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "views"));
 
 const adminData = require("./routes/admin");
 const shopRouters = require("./routes/shop");
