@@ -11,7 +11,6 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = async (req, res, next) => {
-  // products.push({ title: req.body.title });
   const product = new Product(req.body.title);
   await product.save();
 
