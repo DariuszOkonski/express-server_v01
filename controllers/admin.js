@@ -20,12 +20,9 @@ exports.postAddProduct = async (req, res, next) => {
 exports.getProducts = async (req, res, next) => {
   const products = await Product.fetchAll();
 
-  res.render("shop/product-list", {
+  res.render("admin/products", {
     prods: products,
-    pageTitle: "Shop",
-    path: "/",
-    hasProducts: products.length > 0,
-    productCSS: true,
-    activeShop: true,
+    pageTitle: "Admin Products",
+    path: "/admin/products",
   });
 };
