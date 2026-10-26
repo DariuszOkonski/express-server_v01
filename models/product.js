@@ -1,5 +1,21 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
+
+const p = path.join(
+  path.dirname(process.mainModule.filename),
+  'data',
+  'products.json'
+);
+
+const getProductsFromFile = cb => {
+  fs.readFile(p, (err, fileContent) => {
+    if (err) {
+      cb([]);
+    } else {
+      cb(JSON.parse(fileContent));
+    }
+  });
+};
 
 module.exports = class Product {
   constructor(title, imageUrl, description, price) {
@@ -9,34 +25,16 @@ module.exports = class Product {
     this.price = price;
   }
 
-  async save() {
-    const filePath = path.join(__dirname, "..", "data", "products.json");
-    await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
-
-    let products = [];
-    try {
-      const fileContent = await fs.promises.readFile(filePath, "utf8");
-      products = JSON.parse(fileContent);
-    } catch (err) {
-      if (err.code !== "ENOENT") {
-        throw err;
-      }
-    }
-
-    products.push(this);
-    await fs.promises.writeFile(filePath, JSON.stringify(products));
+  save() {
+    getProductsFromFile(products => {
+      products.push(this);
+      fs.writeFile(p, JSON.stringify(products), err => {
+        console.log(err);
+      });
+    });
   }
 
-  static async fetchAll() {
-    const filePath = path.join(__dirname, "..", "data", "products.json");
-    try {
-      const fileContent = await fs.promises.readFile(filePath, "utf8");
-      return JSON.parse(fileContent);
-    } catch (err) {
-      if (err.code === "ENOENT") {
-        return [];
-      }
-      throw err;
-    }
+  static fetchAll(cb) {
+    getProductsFromFile(cb);
   }
 };

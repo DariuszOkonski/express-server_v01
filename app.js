@@ -1,27 +1,24 @@
-const path = require("path");
-const bodyParser = require("body-parser");
-const express = require("express");
+const path = require('path');
 
-const errorController = require("./controllers/error");
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const errorController = require('./controllers/error');
 
 const app = express();
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 
-const adminRoutes = require("./routes/admin");
-const shopRoutes = require("./routes/shop");
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use("/admin", adminRoutes);
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(3000, () => {
-  console.log("Server is Listening on port 3000...");
-});
-
-// ("https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png");
+app.listen(3000);
