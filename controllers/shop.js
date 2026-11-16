@@ -4,8 +4,6 @@ const Cart = require("../models/cart");
 exports.getProducts = (req, res, next) => {
   Product.fetchAll()
     .then(([rows]) => {
-      console.log("!!! rows: ", rows);
-
       res.render("shop/product-list", {
         prods: rows,
         pageTitle: "All Products",
