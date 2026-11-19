@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const errorController = require("./controllers/error");
+const sequelize = require("./util/database");
 
 const app = express();
 
@@ -21,7 +22,15 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(3000);
+sequelize
+  .sync()
+  .then((result) => {
+    // console.log(result);
+    app.listen(3000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-// ""https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png""
+// "https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png"
 // "https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png"
