@@ -19,33 +19,33 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
 
-  Product.findAll({ where: { id: prodId } })
-    .then((products) => {
-      if (!products[0]) {
-        return next();
-      }
-
-      res.render("shop/product-detail", {
-        product: products[0],
-        pageTitle: products[0].title,
-        path: "/products",
-      });
-    })
-    .catch((err) => next(err));
-
-  // Product.findByPk(prodId)
-  //   .then((product) => {
-  //     if (!product) {
+  // Product.findAll({ where: { id: prodId } })
+  //   .then((products) => {
+  //     if (!products[0]) {
   //       return next();
   //     }
 
   //     res.render("shop/product-detail", {
-  //       product: product,
-  //       pageTitle: product.title,
+  //       product: products[0],
+  //       pageTitle: products[0].title,
   //       path: "/products",
   //     });
   //   })
   //   .catch((err) => next(err));
+
+  Product.findByPk(prodId)
+    .then((product) => {
+      if (!product) {
+        return next();
+      }
+
+      res.render("shop/product-detail", {
+        product: product,
+        pageTitle: product.title,
+        path: "/products",
+      });
+    })
+    .catch((err) => next(err));
 };
 
 exports.getIndex = (req, res, next) => {
